@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+python-dotenv
+requests
+pydantic
+chromadb
+groq
+google-generativeai
+openmeteo-requests
+requests-cache
+retry-requests
+pandas
+numpy
+python-multipart
+msgpack
