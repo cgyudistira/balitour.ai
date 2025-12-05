@@ -23,18 +23,6 @@
 
 **BaliTour.AI** is a cutting-edge **Agentic AI Platform** that empowers tourists and local tourism operators in Bali. By leveraging a sophisticated multi-agent system, the platform provides hyper-personalized travel recommendations, dynamic itinerary generation, real-time environmental safety updates, and deep cultural insights.
 
-Built on the **Google ADK (Agent Developer Kit)** and powered by **Groq's LPU** for ultra-low latency inference, BaliTour.AI ensures a seamless and responsive user experience. **ChromaDB** serves as the intelligent backbone, enabling RAG (Retrieval-Augmented Generation) for accurate, context-aware interactions.
-
-***
-
-### 🖥️ User Interface
-
-This project includes a modern **Streamlit** dashboard for easy interaction.
-
-### 🌟 Key Features
-
-* **Unified Chat Interface**: A single chat window to interact with all agents (Weather, Travel, Culture, etc.).
-* **Smart Orchestrator**: The "Supervisor" agent intelligently routes queries or answers simple greetings directly (Fast Path).
 * **Multi-lingual Support**: Chat in English, Indonesian, or Balinese.
 * **Trip Settings**: Customize your travel style (Relaxed/Adventure) and budget directly from the sidebar.
 
