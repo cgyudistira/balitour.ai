@@ -13,7 +13,7 @@
 
 *An intelligent multi-agent ecosystem designed to revolutionize the Bali tourism experience.*
 
-[Features](#-key-features) • [Architecture](#-system-architecture) • [Getting Started](#-getting-started) • [Contributing](#-contributing)
+[Features](#-key-features) • [Preview](#-preview) • [Architecture](#-system-architecture) • [Getting Started](#-getting-started) • [Contributing](#-contributing)
 
 </div>
 
@@ -23,72 +23,158 @@
 
 **BaliTour.AI** is a cutting-edge **Agentic AI Platform** that empowers tourists and local tourism operators in Bali. By leveraging a sophisticated multi-agent system, the platform provides hyper-personalized travel recommendations, dynamic itinerary generation, real-time environmental safety updates, and deep cultural insights.
 
-* **Multi-lingual Support**: Chat in English, Indonesian, or Balinese.
-* **Trip Settings**: Customize your travel style (Relaxed/Adventure) and budget directly from the sidebar.
+Built on the **Google ADK (Agent Developer Kit)** and powered by **Groq's LPU** for ultra-low latency inference, BaliTour.AI ensures a seamless and responsive user experience. **ChromaDB** serves as the intelligent backbone, enabling RAG (Retrieval-Augmented Generation) for accurate, context-aware interactions.
 
-<br>
+***
 
-<div align="center">
+## 📱 Preview
+
+![BaliTour.AI Dashboard Preview](assets/ui_preview.png)
+
+***
+
+## 🚀 Key Features
+
+### 🌟 Intelligent Agents
+
+| Agent | Functionality |
+| :--- | :--- |
+| **🧠 Supervisor (Orchestrator)** | The central brain. Uses "Fast Path" to answer simple chats instantly and routes complex tasks to specialized agents. |
+| **🌍 Travel Recommendation** | Suggests destinations based on location, category (cultural, culinary, nature), and user persona via RAG. |
+| **📅 Itinerary Generator** | Creates smart 1-7 day itineraries. Adjusts for "Relaxed", "Adventure", or "Cultural" travel styles. |
+| **🌦️ Weather & Marine** | Real-time safety updates via **Open-Meteo** (weather) and **StormGlass** (waves, UV, wind). |
+| **🚕 Transport Route** | Optimizes travel routes using **OpenRouteService**. Calculates distance and travel time. |
+| **🎭 Cultural Guide** | Your personal guide to Balinese etiquette, beliefs, and upcoming ceremonies. |
+
+### 🤖 Multi-Agent Collaboration
+
+Our agents don't work in silos. They communicate to deliver a unified experience:
+
+> *"The Weather Agent warns of high waves 🌊 → The Itinerary Agent reschedules the beach visit 🏖️ → The Cultural Agent suggests a nearby indoor temple ceremony instead 🕍."*
+
+***
 
 ## 🛠️ Technical Stack
 
-* **Frontend**: Streamlit (Premium UI with Custom CSS)
-* **Backend**: FastAPI
-* **Agent Framework**: Custom Orchestrator + Google ADK Concepts
-* **LLM Engine**: Groq (Llama-3.3-70b-versatile) for ultra-fast inference
-* **Knowledge**: ChromaDB (RAG) & Real-time APIs (Open-Meteo, OpenRoute, Travelpayouts)
+<div align="center">
+
+| Component | Tech Stack |
+| :--- | :--- |
+| **Frontend** | Streamlit (Custom CSS, Modern UI) |
+| **Backend** | FastAPI, Uvicorn |
+| **AI Engine** | Groq (Llama-3.3-70b-versatile) |
+| **Orchestration** | Custom Independent Agents (Google ADK Pattern) |
+| **Data & RAG** | ChromaDB (Vector Store) |
+| **External APIs** | Open-Meteo, OpenRoute, StormGlass, Travelpayouts |
 
 </div>
+
+***
+
+## 📐 System Architecture
+
+```mermaid
+graph TD
+    User[User / Client] -->|HTTP Request| UI[Streamlit Frontend]
+    UI -->|API Call| API[FastAPI Gateway]
+    API --> Orch[Orchestrator Agent]
+    
+    subgraph "Agent Swarm"
+        Orch -->|Fast Path| LLM[Groq LPU]
+        Orch -->|Delegation| TA[Travel Agent]
+        Orch -->|Delegation| IA[Itinerary Agent]
+        Orch -->|Delegation| WA[Weather Agent]
+        Orch -->|Delegation| CA[Cultural Agent]
+    end
+    
+    TA <--> CDB[(ChromaDB)]
+    CA <--> CDB
+    
+    WA <-->|REST| WeatherAPI[Open-Meteo]
+    
+    Orch -->|Synthesized JSON| API
+```
+
+***
+
+## 📂 Directory Structure
+
+```text
+bali-tour-ai/
+├── app/
+│   ├── main.py                 # FastAPI Entry Point
+│   ├── orchestrator.py         # Main Agent logic with Intent Classification
+│   ├── agents/                 # Specialized Agent Definitions
+│   │   ├── weather_agent.py    # Weather & Marine safety
+│   │   ├── transport_agent.py  # Routing logic
+│   │   ├── culture_agent.py    # Cultural RAG
+│   │   └── ...
+│   └── services/               # External Service Wrappers
+├── assets/                     # Images and static assets
+├── data/                       # Local Knowledge Base
+├── requirements.txt            # Dependencies
+└── .env                        # API Configuration (Use .env.example)
+```
+
+***
 
 ## 🚦 Getting Started
 
 ### Prerequisites
 
 * Python 3.10+
-* API Keys (Groq, Google, OpenRoute, etc.)
+* API Keys for Groq, Google, OpenRouteService.
 
 ### Installation
 
-1. **Clone & Install**
+1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-repo/balitour.ai.git
-   cd balitour.ai
+   git clone https://github.com/your-username/balitour-ai.git
+   cd balitour-ai
+   ```
+
+2. **Set Up Virtual Environment**
+   ```bash
    python -m venv venv
-   source venv/bin/activate  # Windows: venv\Scripts\activate
+   # Windows
+   source venv/bin/activate
+   # Linux/Mac
+   source venv/bin/activate
+   ```
+
+3. **Install Dependencies**
+   ```bash
    pip install -r requirements.txt
    ```
 
-2. **Configure Environment**
-   Rename `.env.example` to `.env` and add your API credentials.
+4. **Configure Environment**
+   Rename `.env.example` to `.env` and fill in your keys.
    ```bash
-   GROQ_API_KEY=gsk_...
-   ...
+   cp .env.example .env
    ```
 
-3. **Run the Application 🚀**
-   You need two terminals for the full experience:
+5. **Run the Application 🚀**
+   You need **two terminal windows**:
 
-   **Terminal 1 (Backend API):**
+   **Terminal 1: Backend API**
 
    ```bash
    python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
    ```
 
-   **Terminal 2 (Frontend UI):**
+   **Terminal 2: Frontend UI**
 
    ```bash
    python -m streamlit run streamlit_app.py
    ```
 
-   Access the UI at: **http://localhost:8501**
-
-Visit `http://localhost:8000/docs` to interact with the API Swagger UI.
+   👉 Access the App at: **http://localhost:8501**
 
 ***
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome!
 
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
