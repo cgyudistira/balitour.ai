@@ -29,7 +29,7 @@ Built on the **Google ADK (Agent Developer Kit)** and powered by **Groq's LPU** 
 
 ## 📱 Preview
 
-![BaliTour.AI Dashboard Preview](assets/ui_preview.png)
+![BaliTour.AI Dashboard Preview](assets/preview.png)
 
 ***
 
