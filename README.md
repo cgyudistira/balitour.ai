@@ -172,5 +172,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ***
 
 <div align="center">
-  <sub>Built with ❤️ for Bali by the BaliTour.AI Team</sub>
+  <sub>Built with ❤️ for Bali by </cgyudistira> </sub>
 </div>
