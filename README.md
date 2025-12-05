@@ -27,127 +27,72 @@ Built on the **Google ADK (Agent Developer Kit)** and powered by **Groq's LPU** 
 
 ***
 
-## 🚀 Key Features
+### 🖥️ User Interface
 
-### 🌟 User-Facing Agents
+This project includes a modern **Streamlit** dashboard for easy interaction.
 
-| Agent | Functionality |
-| :--- | :--- |
-| **🌍 Travel Recommendation** | Suggests destinations based on location, category (cultural, culinary, nature), and user persona. Powered by RAG. |
-| **📅 Itinerary Generator** | Creates smart 1-7 day itineraries considering weather, travel time, and operating hours. Supports family, clean luxury, & backpacker modes. |
-| **🌦️ Weather & Marine** | Real-time safety updates via **Open-Meteo** (weather) and **StormGlass** (waves, UV index, wind). |
-| **🚕 Transport Route** | Optimizes travel routes for motorbikes, cars, or walking using **OpenRouteService**. Recommends vetted transport options. |
-| **🏨 Booking Assistant** | Aggregates prices and availability for hotels, flights, and tours via **Travelpayouts**. |
-| **🎭 Cultural Guide** | Your personal guide to Balinese etiquette, temple ceremonies, and holidays like *Galungan* and *Nyepi*. |
+### 🌟 Key Features
 
-### 🤖 Multi-Agent Collaboration
+* **Unified Chat Interface**: A single chat window to interact with all agents (Weather, Travel, Culture, etc.).
+* **Smart Orchestrator**: The "Supervisor" agent intelligently routes queries or answers simple greetings directly (Fast Path).
+* **Multi-lingual Support**: Chat in English, Indonesian, or Balinese.
+* **Trip Settings**: Customize your travel style (Relaxed/Adventure) and budget directly from the sidebar.
 
-Our agents don't work in silos. They communicate to deliver a unified experience:
+<br>
 
-> *"The Weather Agent warns of high waves 🌊 → The Itinerary Agent reschedules the beach visit 🏖️ → The Cultural Agent suggests a nearby indoor temple ceremony instead 🕍."*
-
-***
+<div align="center">
 
 ## 🛠️ Technical Stack
 
-* **Core Framework**: Python 3.10+
-* **Agent Architecture**: Google ADK (Agent Developer Kit)
-* **Inference Engine**: Groq (Llama 3 / Mixtral models)
-* **Knowledge Base**: ChromaDB (Vector Search / RAG)
-* **API Interface**: FastAPI
-* **External APIs**: Open-Meteo, StormGlass, OpenRouteService, Travelpayouts
+* **Frontend**: Streamlit (Premium UI with Custom CSS)
+* **Backend**: FastAPI
+* **Agent Framework**: Custom Orchestrator + Google ADK Concepts
+* **LLM Engine**: Groq (Llama-3.3-70b-versatile) for ultra-fast inference
+* **Knowledge**: ChromaDB (RAG) & Real-time APIs (Open-Meteo, OpenRoute, Travelpayouts)
 
-***
-
-## 📐 System Architecture
-
-```mermaid
-graph TD
-    User[User / Client] -->|API Request| API[FastAPI Gateway]
-    API --> Orch[Orchestrator Agent]
-    
-    subgraph "Agent Swarm (Google ADK)"
-        Orch --> TA[Travel Agent]
-        Orch --> IA[Itinerary Agent]
-        Orch --> WA[Weather Agent]
-        Orch --> TRA[Transport Agent]
-        Orch --> CA[Cultural Agent]
-    end
-    
-    TA <--> CDB[(ChromaDB Knowledge)]
-    CA <--> CDB
-    
-    WA <-->|REST| WeatherAPI[Open-Meteo]
-    WA <-->|REST| MarineAPI[StormGlass]
-    TRA <-->|REST| RouteAPI[OpenRouteService]
-    
-    Orch -->|JSON Response| API
-```
-
-***
-
-## 📂 Directory Structure
-
-```text
-bali-tour-ai/
-├── app/
-│   ├── main.py                 # FastAPI Entry Point
-│   ├── orchestrator.py         # Main Agent Orchestrator
-│   ├── agents/                 # Specialized Agent Definitions
-│   │   ├── travel_agent.py
-│   │   ├── itinerary_agent.py
-│   │   ├── weather_agent.py
-│   │   ├── transport_agent.py
-│   │   ├── booking_agent.py
-│   │   └── culture_agent.py
-│   └── services/               # External Service Wrappers
-│       ├── google_adk.py
-│       ├── groq_service.py
-│       └── chromadb_service.py
-├── data/                       # Local Knowledge Base & Datasets
-├── utils/                      # Helper Utilities
-├── requirements.txt            # Project Dependencies
-└── .env.example                # Configuration Template
-```
-
-***
+</div>
 
 ## 🚦 Getting Started
 
 ### Prerequisites
 
-* Python 3.10 or higher
-* API Keys for Groq, Open-Meteo, etc.
+* Python 3.10+
+* API Keys (Groq, Google, OpenRoute, etc.)
 
 ### Installation
 
-1. **Clone the Repository**
+1. **Clone & Install**
    ```bash
-   git clone https://github.com/your-username/balitour-ai.git
-   cd balitour-ai
-   ```
-
-2. **Set Up Virtual Environment**
-   ```bash
+   git clone https://github.com/your-repo/balitour.ai.git
+   cd balitour.ai
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install Dependencies**
-   ```bash
+   source venv/bin/activate  # Windows: venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
-4. **Configure Environment**
-   Copy the example environment file and fill in your keys.
+2. **Configure Environment**
+   Rename `.env.example` to `.env` and add your API credentials.
    ```bash
-   cp .env.example .env
+   GROQ_API_KEY=gsk_...
+   ...
    ```
 
-5. **Run the Application**
+3. **Run the Application 🚀**
+   You need two terminals for the full experience:
+
+   **Terminal 1 (Backend API):**
+
    ```bash
-   uvicorn app.main:app --reload
+   python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
    ```
+
+   **Terminal 2 (Frontend UI):**
+
+   ```bash
+   python -m streamlit run streamlit_app.py
+   ```
+
+   Access the UI at: **http://localhost:8501**
 
 Visit `http://localhost:8000/docs` to interact with the API Swagger UI.
 

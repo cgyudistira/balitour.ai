@@ -7,8 +7,9 @@ class WeatherAgent:
     def __init__(self):
         # Setup the Open-Meteo API client with cache and retry on error
         cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
-        retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
-        self.openmeteo = openmeteo_requests.Client(session = retry_session)
+        retry_session = retry(cache_session, retries=2, backoff_factor=0.2)
+        self.openmeteo = openmeteo_requests.Client(session=retry_session)
+        print("[WeatherAgent] Initialized with 2 retries")
         self.url = "https://api.open-meteo.com/v1/forecast"
 
     def get_weather(self, latitude: float, longitude: float):

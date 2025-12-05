@@ -22,7 +22,18 @@ class RouteRequest(BaseModel):
     end_coords: tuple
     profile: str = "driving-car"
 
+class ChatRequest(BaseModel):
+    query: str
+
 # Endpoints
+
+@app.post("/api/agent-chat")
+async def agent_chat(request: ChatRequest):
+    try:
+        result = orchestrator.handle_chat(request.query)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/")
 async def root():

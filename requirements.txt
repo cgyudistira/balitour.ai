@@ -13,3 +13,7 @@ pandas
 numpy
 python-multipart
 msgpack
+streamlit
+watchdog
+geopy
+plotly

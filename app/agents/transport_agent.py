@@ -29,7 +29,7 @@ class TransportAgent:
         url = f"{self.base_url}/{profile}"
         
         try:
-            response = requests.post(url, json=body, headers=headers)
+            response = requests.post(url, json=body, headers=headers, timeout=10)
             if response.status_code == 200:
                 data = response.json()
                 # Basic parsing
